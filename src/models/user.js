@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const webToken = require('jsonwebtoken')
 const mongoose = require('mongoose')
 const validator = require('validator')
 
@@ -39,8 +40,24 @@ const userSchema = new mongoose.Schema({
                 throw new Error('age must be a positive number')
             }
         }
-    }
+    },
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
 })
+
+userSchema.methods.generateAuthToken = async function () {
+    const user = this
+    const token = webToken.sign({ _id: user._id.toString() }, 'thisismynewcourse')
+
+    user.tokens = user.tokens.concat({ token })
+
+    await user.save()
+    return token
+}
 
 userSchema.statics.findByCredentials = async (email, password) => {
     // USE GENERIC ERROR MESSAGES TO PREVENT HACKER ABUSE
