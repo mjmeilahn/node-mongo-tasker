@@ -7,14 +7,14 @@ const app = express()
 const port = 3000
 
 // CUSTOM MIDDLEWARE
-app.use((req, res, next) => {
-    if (req.method === 'GET') {
-        res.send('GET requests are disabled')
-    }
-    else {
-        next()
-    }
-})
+// app.use((req, res, next) => {
+//     if (req.method === 'GET') {
+//         res.send('GET requests are disabled')
+//     }
+//     else {
+//         next()
+//     }
+// })
 
 // PARSE ALL INCOMING JSON AS JS OBJECTS
 app.use(express.json())

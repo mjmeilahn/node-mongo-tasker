@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth')
 const express = require('express')
 const router = new express.Router()
 const User = require('../models/user')
@@ -14,7 +15,7 @@ router.post('/users/login', async (req, res) => {
     }
 })
 
-// GET /users
+// OLD GET /users
 router.get('/users', async (req, res) => {
 
     try {
@@ -24,6 +25,11 @@ router.get('/users', async (req, res) => {
     catch (e) {
         res.status(500).send(e)
     }
+})
+
+// GET /users/me
+router.get('/users/me', auth, async (req, res) => {
+    res.send(req.user)
 })
 
 
