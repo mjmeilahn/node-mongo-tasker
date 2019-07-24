@@ -5,10 +5,25 @@ const Task = require('../models/task')
 
 // GET /tasks
 router.get('/tasks', auth, async (req, res) => {
+    let completed
+    let tasks
+    const query = req.query.completed
 
     try {
-        const tasks = await Task.find({ owner: req.user._id })
-        res.send(req.user.tasks)
+        if (query) {
+            completed = (query === 'true') ? true : false
+            tasks = await Task.find({
+                owner: req.user._id,
+                completed
+            })
+        }
+        else {
+            tasks = await Task.find({
+                owner: req.user._id
+            })
+        }
+
+        res.send(tasks)
     }
     catch (e) {
         res.status(500).send(e)

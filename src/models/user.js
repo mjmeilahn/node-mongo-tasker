@@ -48,6 +48,8 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     }]
+}, {
+    timestamps: true
 })
 
 userSchema.virtual('tasks', {
@@ -57,9 +59,11 @@ userSchema.virtual('tasks', {
 })
 
 userSchema.methods.toJSON = function () {
+    // RESPONSE IN WHAT IS SHOWN TO FRONT END
     const user = this
     const userObj = user.toObject()
 
+    // FRONT END DOES NOT NEED THIS INFORMATION
     delete userObj.password
     delete userObj.tokens
 
