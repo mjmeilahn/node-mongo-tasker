@@ -4,6 +4,7 @@ const router = new express.Router()
 const Task = require('../models/task')
 
 // GET /tasks
+// GET /tasks?completed=true
 router.get('/tasks', auth, async (req, res) => {
     let completed
     let tasks
